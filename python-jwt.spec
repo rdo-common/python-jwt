@@ -15,7 +15,7 @@
 %global modname jwt
 
 Name:               python-jwt
-Version:            1.0.1
+Version:            1.3.0
 Release:            1%{?dist}
 Summary:            JSON Web Token implementation in Python
 
@@ -30,10 +30,16 @@ BuildRequires:      python-setuptools
 BuildRequires:      python-cryptography
 Requires:           python-cryptography
 
+BuildRequires:      pytest
+BuildRequires:      python-pytest-cov
+
 %if 0%{?with_python3}
 BuildRequires:      python3-devel
 BuildRequires:      python3-setuptools
 BuildRequires:      python3-cryptography
+
+BuildRequires:      python3-pytest
+BuildRequires:      python3-pytest-cov
 %endif
 
 %description
@@ -58,8 +64,15 @@ encrypted JSON objects.
 %prep
 %setup -q -n PyJWT-%{version}
 
+rm -rf setup.cfg
+
+sed -i '/pytest-runner/d' setup.py
+
 # Remove bundled egg-info in case it exists
 rm -rf %{modname}.egg-info
+find . -name "*.pyc" -exec rm -rf {} \; || echo;
+find . -name "__pycache__" -exec rm -rf {} \; || echo;
+
 %if 0%{?with_python3}
 rm -rf %{py3dir}
 cp -a . %{py3dir}
@@ -82,15 +95,13 @@ popd
 %endif
 %{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
 
-# Tests will be included in the next release:
-# https://github.com/jpadilla/pyjwt/pull/95
-#%%check
-#%%{__python2} tests/test_jwt.py
-#%%if 0%%{?with_python3}
-#pushd %%{py3dir}
-#%%{__python3} tests/test_jwt.py
-#popd
-#%%endif
+%check
+py.test .
+%if 0%{?with_python3}
+pushd %{py3dir}
+py.test-%{python3_version} .
+popd
+%endif
 
 %files
 %doc README.md AUTHORS
@@ -109,6 +120,10 @@ popd
 %endif
 
 %changelog
+* Wed Jun 17 2015 Ralph Bean <rbean@redhat.com> - 1.3.0-1
+- new version
+- start running the test suite.
+
 * Fri Mar 27 2015 Ralph Bean <rbean@redhat.com> - 1.0.1-1
 - new version
 
