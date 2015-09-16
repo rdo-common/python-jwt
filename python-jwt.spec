@@ -15,7 +15,7 @@
 %global modname jwt
 
 Name:               python-jwt
-Version:            1.3.0
+Version:            1.4.0
 Release:            1%{?dist}
 Summary:            JSON Web Token implementation in Python
 
@@ -120,6 +120,9 @@ popd
 %endif
 
 %changelog
+* Wed Sep 16 2015 Ralph Bean <rbean@redhat.com> - 1.4.0-1
+- new version
+
 * Wed Jun 17 2015 Ralph Bean <rbean@redhat.com> - 1.3.0-1
 - new version
 - start running the test suite.
