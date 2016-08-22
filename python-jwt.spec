@@ -15,8 +15,8 @@
 %global modname jwt
 
 Name:               python-jwt
-Version:            1.4.0
-Release:            4%{?dist}
+Version:            1.4.2
+Release:            1%{?dist}
 Summary:            JSON Web Token implementation in Python
 
 Group:              Development/Libraries
@@ -32,6 +32,7 @@ Requires:           python-cryptography
 
 BuildRequires:      pytest
 BuildRequires:      python-pytest-cov
+BuildRequires:      python-pytest-runner
 
 %if 0%{?with_python3}
 BuildRequires:      python3-devel
@@ -40,6 +41,7 @@ BuildRequires:      python3-cryptography
 
 BuildRequires:      python3-pytest
 BuildRequires:      python3-pytest-cov
+BuildRequires:      python3-pytest-runner
 %endif
 
 %description
@@ -63,10 +65,6 @@ encrypted JSON objects.
 
 %prep
 %setup -q -n PyJWT-%{version}
-
-rm -rf setup.cfg
-
-sed -i '/pytest-runner/d' setup.py
 
 # Remove bundled egg-info in case it exists
 rm -rf %{modname}.egg-info
@@ -120,6 +118,9 @@ popd
 %endif
 
 %changelog
+* Mon Aug 15 2016 Kevin Fenzi <kevin@scrye.com> - 1.4.2-1
+- Update to 1.4.2. Fixes bug #1356333
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.0-4
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
