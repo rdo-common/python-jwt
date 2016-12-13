@@ -16,7 +16,7 @@
 
 Name:               python-jwt
 Version:            1.4.2
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            JSON Web Token implementation in Python
 
 Group:              Development/Libraries
@@ -118,6 +118,9 @@ popd
 %endif
 
 %changelog
+* Tue Dec 13 2016 Stratakis Charalampos <cstratak@redhat.com> - 1.4.2-2
+- Rebuild for Python 3.6
+
 * Mon Aug 15 2016 Kevin Fenzi <kevin@scrye.com> - 1.4.2-1
 - Update to 1.4.2. Fixes bug #1356333
 
