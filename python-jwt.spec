@@ -16,7 +16,7 @@
 
 Name:               python-jwt
 Version:            1.4.2
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            JSON Web Token implementation in Python
 
 Group:              Development/Libraries
@@ -118,6 +118,9 @@ popd
 %endif
 
 %changelog
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Tue Dec 13 2016 Stratakis Charalampos <cstratak@redhat.com> - 1.4.2-2
 - Rebuild for Python 3.6
 
