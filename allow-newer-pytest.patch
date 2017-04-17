@@ -1,0 +1,12 @@
+diff -Nur PyJWT-1.4.2.orig/setup.py PyJWT-1.4.2/setup.py
+--- PyJWT-1.4.2.orig/setup.py	2016-06-29 22:07:44.000000000 -0600
++++ PyJWT-1.4.2/setup.py	2017-04-17 09:05:19.783324336 -0600
+@@ -30,7 +30,7 @@
+     sys.exit()
+ 
+ tests_require = [
+-    'pytest==2.7.3',
++    'pytest',
+     'pytest-cov',
+     'pytest-runner',
+ ]

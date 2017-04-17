@@ -2,35 +2,30 @@
 %global with_python3 1
 %endif
 
-# Use the same directory of the main package for subpackage licence and docs
-%global _docdir_fmt %{name}
-
-%{!?_licensedir: %global license %%doc}
-
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{!?__python2:        %global __python2 /usr/bin/python2}
-%{!?python2_sitelib:  %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-%endif
-
-%global modname jwt
+%global srcname jwt
+%global sum JSON Web Token implementation in Python
 
 Name:               python-jwt
 Version:            1.4.2
-Release:            3%{?dist}
-Summary:            JSON Web Token implementation in Python
+Release:            4%{?dist}
+Summary:            %{sum}
 
 Group:              Development/Libraries
 License:            MIT
 URL:                http://pypi.python.org/pypi/pyjwt
 Source0:            https://pypi.python.org/packages/source/P/PyJWT/PyJWT-%{version}.tar.gz
+#
+# Upstream hard coded a specific version of pytest to avoid a bug
+# However, that bug is long since fixed upstream
+#
+Patch0:             allow-newer-pytest.patch
 BuildArch:          noarch
 
 BuildRequires:      python2-devel
 BuildRequires:      python-setuptools
 BuildRequires:      python-cryptography
-Requires:           python-cryptography
 
-BuildRequires:      pytest
+BuildRequires:      python2-pytest
 BuildRequires:      python-pytest-cov
 BuildRequires:      python-pytest-runner
 
@@ -50,13 +45,24 @@ means of representing signed content using JSON data structures, including
 claims to be transferred between two parties encoded as digitally signed and
 encrypted JSON objects.
 
-%if 0%{?with_python3}
-%package -n python3-jwt
-Summary:            JSON Web Token implementation in Python
-Group:              Development/Libraries
-Requires:           python3-cryptography
+%package -n python2-%{srcname}
+Summary:        %{sum}
+Requires:       python-cryptography
+%{?python_provide:%python_provide python2-%{srcname}}
 
-%description -n python3-jwt
+%description -n python2-%{srcname}
+A Python implementation of JSON Web Token draft 01. This library provides a
+means of representing signed content using JSON data structures, including
+claims to be transferred between two parties encoded as digitally signed and
+encrypted JSON objects.
+
+%if 0%{?with_python3}
+%package -n python3-%{srcname}
+Summary:        %{sum}
+%{?python_provide:%python_provide python3-%{srcname}}
+Requires:       python3-cryptography
+
+%description -n python3-%{srcname}
 A Python3 implementation of JSON Web Token draft 01. This library provides a
 means of representing signed content using JSON data structures, including
 claims to be transferred between two parties encoded as digitally signed and
@@ -64,60 +70,45 @@ encrypted JSON objects.
 %endif
 
 %prep
-%setup -q -n PyJWT-%{version}
-
-# Remove bundled egg-info in case it exists
-rm -rf %{modname}.egg-info
-find . -name "*.pyc" -exec rm -rf {} \; || echo;
-find . -name "__pycache__" -exec rm -rf {} \; || echo;
-
-%if 0%{?with_python3}
-rm -rf %{py3dir}
-cp -a . %{py3dir}
-%endif
+%autosetup -n PyJWT-%{version}
 
 %build
-%{__python2} setup.py build
+%py2_build
 %if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py build
-popd
+%py3_build
 %endif
 
 %install
+%py2_install
 %if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py install -O1 --skip-build --root=%{buildroot}
-mv %{buildroot}%{_bindir}/jwt %{buildroot}%{_bindir}/python3-jwt
-popd
+%py3_install
 %endif
-%{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
 
 %check
-py.test .
+%{__python2} setup.py test
 %if 0%{?with_python3}
-pushd %{py3dir}
-py.test-%{python3_version} .
-popd
+%{__python3} setup.py test
 %endif
 
-%files
+%files -n python2-jwt
 %doc README.md AUTHORS
 %license LICENSE
-%{python2_sitelib}/%{modname}/
+%{python2_sitelib}/%{srcname}/
 %{python2_sitelib}/PyJWT-%{version}*
-%{_bindir}/jwt
 
 %if 0%{?with_python3}
 %files -n python3-jwt
 %doc README.md AUTHORS
 %license LICENSE
-%{python3_sitelib}/%{modname}/
+%{python3_sitelib}/%{srcname}/
 %{python3_sitelib}/PyJWT-%{version}*
-%{_bindir}/python3-jwt
+%{_bindir}/jwt
 %endif
 
 %changelog
+* Mon Apr 17 2017 Kevin Fenzi <kevin@scrye.com> - 1.4.2-4
+- Modernize spec and make sure to provide python2-jwt
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
