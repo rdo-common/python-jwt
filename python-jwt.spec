@@ -6,19 +6,14 @@
 %global sum JSON Web Token implementation in Python
 
 Name:               python-jwt
-Version:            1.4.2
-Release:            4%{?dist}
+Version:            1.5.0
+Release:            1%{?dist}
 Summary:            %{sum}
 
 Group:              Development/Libraries
 License:            MIT
 URL:                http://pypi.python.org/pypi/pyjwt
-Source0:            https://pypi.python.org/packages/source/P/PyJWT/PyJWT-%{version}.tar.gz
-#
-# Upstream hard coded a specific version of pytest to avoid a bug
-# However, that bug is long since fixed upstream
-#
-Patch0:             allow-newer-pytest.patch
+Source0:            https://github.com/jpadilla/pyjwt/archive/%{version}.tar.gz
 BuildArch:          noarch
 
 BuildRequires:      python2-devel
@@ -70,7 +65,7 @@ encrypted JSON objects.
 %endif
 
 %prep
-%autosetup -n PyJWT-%{version}
+%autosetup -n pyjwt-%{version}
 
 %build
 %py2_build
@@ -91,21 +86,24 @@ encrypted JSON objects.
 %endif
 
 %files -n python2-jwt
-%doc README.md AUTHORS
+%doc README.rst AUTHORS
 %license LICENSE
 %{python2_sitelib}/%{srcname}/
 %{python2_sitelib}/PyJWT-%{version}*
 
 %if 0%{?with_python3}
 %files -n python3-jwt
-%doc README.md AUTHORS
+%doc README.rst AUTHORS
 %license LICENSE
 %{python3_sitelib}/%{srcname}/
 %{python3_sitelib}/PyJWT-%{version}*
-%{_bindir}/jwt
+%{_bindir}/pyjwt
 %endif
 
 %changelog
+* Sat May 27 2017 Kevin Fenzi <kevin@scrye.com> - 1.5.0-1
+- Update to 1.5.0. Fixes bug #1443792
+
 * Mon Apr 17 2017 Kevin Fenzi <kevin@scrye.com> - 1.4.2-4
 - Modernize spec and make sure to provide python2-jwt
 
