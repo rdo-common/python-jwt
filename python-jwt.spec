@@ -6,7 +6,7 @@
 %global sum JSON Web Token implementation in Python
 
 Name:               python-jwt
-Version:            1.5.0
+Version:            1.5.2
 Release:            1%{?dist}
 Summary:            %{sum}
 
@@ -101,6 +101,9 @@ encrypted JSON objects.
 %endif
 
 %changelog
+* Sat Jun 24 2017 Kevin Fenzi <kevin@scrye.com> - 1.5.2-1
+- Update to 1.5.2. Fixes bug #1464286
+
 * Sat May 27 2017 Kevin Fenzi <kevin@scrye.com> - 1.5.0-1
 - Update to 1.5.0. Fixes bug #1443792
 
