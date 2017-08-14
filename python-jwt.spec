@@ -1,4 +1,4 @@
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} > 7
 %global with_python3 1
 %endif
 
@@ -7,7 +7,7 @@
 
 Name:               python-jwt
 Version:            1.5.2
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            %{sum}
 
 Group:              Development/Libraries
@@ -101,6 +101,9 @@ encrypted JSON objects.
 %endif
 
 %changelog
+* Mon Aug 14 2017 Troy Dawson <tdawson@redhat.com> - 1.5.2-3
+- Fixup spec file conditionals
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
