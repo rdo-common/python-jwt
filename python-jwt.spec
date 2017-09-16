@@ -6,8 +6,8 @@
 %global sum JSON Web Token implementation in Python
 
 Name:               python-jwt
-Version:            1.5.2
-Release:            3%{?dist}
+Version:            1.5.3
+Release:            1%{?dist}
 Summary:            %{sum}
 
 Group:              Development/Libraries
@@ -18,7 +18,7 @@ BuildArch:          noarch
 
 BuildRequires:      python2-devel
 BuildRequires:      python-setuptools
-BuildRequires:      python-cryptography
+BuildRequires:      python-cryptography >= 1.4.0
 
 BuildRequires:      python2-pytest
 BuildRequires:      python-pytest-cov
@@ -27,7 +27,7 @@ BuildRequires:      python-pytest-runner
 %if 0%{?with_python3}
 BuildRequires:      python3-devel
 BuildRequires:      python3-setuptools
-BuildRequires:      python3-cryptography
+BuildRequires:      python3-cryptography >= 1.4.0
 
 BuildRequires:      python3-pytest
 BuildRequires:      python3-pytest-cov
@@ -101,6 +101,10 @@ encrypted JSON objects.
 %endif
 
 %changelog
+* Sat Sep 16 2017 Kevin Fenzi <kevin@scrye.com> - 1.5.3-1
+- Update to 1.5.3. Fixes bug #1488693
+- 1.5.1 fixed CVE-2017-11424 Fixes bug #1482529
+
 * Mon Aug 14 2017 Troy Dawson <tdawson@redhat.com> - 1.5.2-3
 - Fixup spec file conditionals
 
