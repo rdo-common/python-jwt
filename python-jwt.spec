@@ -7,7 +7,7 @@
 
 Name:               python-jwt
 Version:            1.5.3
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            %{sum}
 
 Group:              Development/Libraries
@@ -101,6 +101,9 @@ encrypted JSON objects.
 %endif
 
 %changelog
+* Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Sat Sep 16 2017 Kevin Fenzi <kevin@scrye.com> - 1.5.3-1
 - Update to 1.5.3. Fixes bug #1488693
 - 1.5.1 fixed CVE-2017-11424 Fixes bug #1482529
