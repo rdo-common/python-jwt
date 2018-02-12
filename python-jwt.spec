@@ -7,7 +7,7 @@
 
 Name:               python-jwt
 Version:            1.5.3
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            %{sum}
 
 Group:              Development/Libraries
@@ -17,12 +17,12 @@ Source0:            https://github.com/jpadilla/pyjwt/archive/%{version}.tar.gz
 BuildArch:          noarch
 
 BuildRequires:      python2-devel
-BuildRequires:      python-setuptools
-BuildRequires:      python-cryptography >= 1.4.0
+BuildRequires:      python2-setuptools
+BuildRequires:      python2-cryptography >= 1.4.0
 
 BuildRequires:      python2-pytest
-BuildRequires:      python-pytest-cov
-BuildRequires:      python-pytest-runner
+BuildRequires:      python2-pytest-cov
+BuildRequires:      python2-pytest-runner
 
 %if 0%{?with_python3}
 BuildRequires:      python3-devel
@@ -42,7 +42,7 @@ encrypted JSON objects.
 
 %package -n python2-%{srcname}
 Summary:        %{sum}
-Requires:       python-cryptography
+Requires:       python2-cryptography
 %{?python_provide:%python_provide python2-%{srcname}}
 
 %description -n python2-%{srcname}
@@ -101,6 +101,10 @@ encrypted JSON objects.
 %endif
 
 %changelog
+* Mon Feb 12 2018 Iryna Shcherbina <ishcherb@redhat.com> - 1.5.3-3
+- Update Python 2 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
