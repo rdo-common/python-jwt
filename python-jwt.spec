@@ -6,14 +6,14 @@
 %global sum JSON Web Token implementation in Python
 
 Name:               python-jwt
-Version:            1.5.3
-Release:            3%{?dist}
+Version:            1.6.1
+Release:            1%{?dist}
 Summary:            %{sum}
 
 Group:              Development/Libraries
 License:            MIT
-URL:                http://pypi.python.org/pypi/pyjwt
-Source0:            https://github.com/jpadilla/pyjwt/archive/%{version}.tar.gz
+URL:                https://github.com/jpadilla/pyjwt
+Source0:            %{url}/archive/%{version}/pyjwt-%{version}.tar.gz
 BuildArch:          noarch
 
 BuildRequires:      python2-devel
@@ -42,7 +42,7 @@ encrypted JSON objects.
 
 %package -n python2-%{srcname}
 Summary:        %{sum}
-Requires:       python2-cryptography
+Requires:       python2-cryptography >= 1.4.0
 %{?python_provide:%python_provide python2-%{srcname}}
 
 %description -n python2-%{srcname}
@@ -55,7 +55,7 @@ encrypted JSON objects.
 %package -n python3-%{srcname}
 Summary:        %{sum}
 %{?python_provide:%python_provide python3-%{srcname}}
-Requires:       python3-cryptography
+Requires:       python3-cryptography >= 1.4.0
 
 %description -n python3-%{srcname}
 A Python3 implementation of JSON Web Token draft 01. This library provides a
@@ -101,6 +101,9 @@ encrypted JSON objects.
 %endif
 
 %changelog
+* Thu Apr 05 2018 Carl George <carl@george.computer> - 1.6.1-1
+- Latest upstream
+
 * Mon Feb 12 2018 Iryna Shcherbina <ishcherb@redhat.com> - 1.5.3-3
 - Update Python 2 dependency declarations to new packaging standards
   (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
