@@ -2,6 +2,7 @@
 %global with_python3 1
 %endif
 
+%global _docdir_fmt %{name}
 %global srcname jwt
 %global sum JSON Web Token implementation in Python
 
@@ -101,6 +102,7 @@ py.test-%{python3_version} --verbose
 * Thu Apr 05 2018 Carl George <carl@george.computer> - 1.6.1-1
 - Latest upstream
 - Add patch0 to remove pytest-{cov,runner} deps
+- Share doc and license dir between subpackages
 
 * Mon Feb 12 2018 Iryna Shcherbina <ishcherb@redhat.com> - 1.5.3-3
 - Update Python 2 dependency declarations to new packaging standards
