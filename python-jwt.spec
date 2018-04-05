@@ -1,13 +1,10 @@
 %global _docdir_fmt %{name}
 %global srcname jwt
-%global sum JSON Web Token implementation in Python
 
 Name:               python-jwt
 Version:            1.6.1
 Release:            1%{?dist}
-Summary:            %{sum}
-
-Group:              Development/Libraries
+Summary:            JSON Web Token implementation in Python
 License:            MIT
 URL:                https://github.com/jpadilla/pyjwt
 Source0:            %{url}/archive/%{version}/pyjwt-%{version}.tar.gz
@@ -24,33 +21,27 @@ BuildRequires:      python%{python3_pkgversion}-setuptools
 BuildRequires:      python%{python3_pkgversion}-cryptography >= 1.4.0
 BuildRequires:      python%{python3_pkgversion}-pytest
 
-%description
-A Python implementation of JSON Web Token draft 01. This library provides a
-means of representing signed content using JSON data structures, including
-claims to be transferred between two parties encoded as digitally signed and
+%global _description \
+A Python implementation of JSON Web Token draft 01. This library provides a\
+means of representing signed content using JSON data structures, including\
+claims to be transferred between two parties encoded as digitally signed and\
 encrypted JSON objects.
 
+%description %{_description}
+
 %package -n python2-%{srcname}
-Summary:        %{sum}
+Summary:        %{summary}
 Requires:       python2-cryptography >= 1.4.0
 %{?python_provide:%python_provide python2-%{srcname}}
 
-%description -n python2-%{srcname}
-A Python implementation of JSON Web Token draft 01. This library provides a
-means of representing signed content using JSON data structures, including
-claims to be transferred between two parties encoded as digitally signed and
-encrypted JSON objects.
+%description -n python2-%{srcname} %{_description}
 
 %package -n python%{python3_pkgversion}-%{srcname}
-Summary:        %{sum}
+Summary:        %{summary}
 Requires:       python%{python3_pkgversion}-cryptography >= 1.4.0
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
-%description -n python%{python3_pkgversion}-%{srcname}
-A Python3 implementation of JSON Web Token draft 01. This library provides a
-means of representing signed content using JSON data structures, including
-claims to be transferred between two parties encoded as digitally signed and
-encrypted JSON objects.
+%description -n python%{python3_pkgversion}-%{srcname} %{_description}
 
 %prep
 %autosetup -n pyjwt-%{version} -p 1
@@ -73,13 +64,13 @@ py.test-%{python3_version} --verbose
 %doc README.rst AUTHORS
 %license LICENSE
 %{python2_sitelib}/%{srcname}/
-%{python2_sitelib}/PyJWT-%{version}*
+%{python2_sitelib}/PyJWT-%{version}-py%{python2_version}.egg-info
 
 %files -n python%{python3_pkgversion}-jwt
 %doc README.rst AUTHORS
 %license LICENSE
 %{python3_sitelib}/%{srcname}/
-%{python3_sitelib}/PyJWT-%{version}*
+%{python3_sitelib}/PyJWT-%{version}-py%{python3_version}.egg-info
 %{_bindir}/pyjwt
 
 %changelog
