@@ -14,24 +14,19 @@ Group:              Development/Libraries
 License:            MIT
 URL:                https://github.com/jpadilla/pyjwt
 Source0:            %{url}/archive/%{version}/pyjwt-%{version}.tar.gz
+Patch0:             disable-coverage-and-runner.patch
 BuildArch:          noarch
 
 BuildRequires:      python2-devel
 BuildRequires:      python2-setuptools
 BuildRequires:      python2-cryptography >= 1.4.0
-
 BuildRequires:      python2-pytest
-BuildRequires:      python2-pytest-cov
-BuildRequires:      python2-pytest-runner
 
 %if 0%{?with_python3}
 BuildRequires:      python3-devel
 BuildRequires:      python3-setuptools
 BuildRequires:      python3-cryptography >= 1.4.0
-
 BuildRequires:      python3-pytest
-BuildRequires:      python3-pytest-cov
-BuildRequires:      python3-pytest-runner
 %endif
 
 %description
@@ -65,7 +60,9 @@ encrypted JSON objects.
 %endif
 
 %prep
-%autosetup -n pyjwt-%{version}
+%autosetup -n pyjwt-%{version} -p 1
+# prevent pulling in `addopts` for pytest run later
+rm setup.cfg
 
 %build
 %py2_build
@@ -80,9 +77,9 @@ encrypted JSON objects.
 %endif
 
 %check
-%{__python2} setup.py test
+py.test-%{python2_version} --verbose
 %if 0%{?with_python3}
-%{__python3} setup.py test
+py.test-%{python3_version} --verbose
 %endif
 
 %files -n python2-jwt
@@ -103,6 +100,7 @@ encrypted JSON objects.
 %changelog
 * Thu Apr 05 2018 Carl George <carl@george.computer> - 1.6.1-1
 - Latest upstream
+- Add patch0 to remove pytest-{cov,runner} deps
 
 * Mon Feb 12 2018 Iryna Shcherbina <ishcherb@redhat.com> - 1.5.3-3
 - Update Python 2 dependency declarations to new packaging standards
