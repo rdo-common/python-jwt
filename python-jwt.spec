@@ -1,6 +1,10 @@
 %global _docdir_fmt %{name}
 %global srcname jwt
 
+%if 0%{?fedora}
+%global with_python3 1
+%endif
+
 Name:               python-jwt
 Version:            1.6.1
 Release:            1%{?dist}
@@ -15,11 +19,6 @@ BuildRequires:      python2-devel
 BuildRequires:      python2-setuptools
 BuildRequires:      python2-cryptography >= 1.4.0
 BuildRequires:      python2-pytest
-
-BuildRequires:      python%{python3_pkgversion}-devel
-BuildRequires:      python%{python3_pkgversion}-setuptools
-BuildRequires:      python%{python3_pkgversion}-cryptography >= 1.4.0
-BuildRequires:      python%{python3_pkgversion}-pytest
 
 %global _description \
 A Python implementation of JSON Web Token draft 01. This library provides a\
@@ -36,12 +35,19 @@ Requires:       python2-cryptography >= 1.4.0
 
 %description -n python2-%{srcname} %{_description}
 
+%if 0%{?with_python3}
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{summary}
 Requires:       python%{python3_pkgversion}-cryptography >= 1.4.0
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
+BuildRequires:      python%{python3_pkgversion}-devel
+BuildRequires:      python%{python3_pkgversion}-setuptools
+BuildRequires:      python%{python3_pkgversion}-cryptography >= 1.4.0
+BuildRequires:      python%{python3_pkgversion}-pytest
+
 %description -n python%{python3_pkgversion}-%{srcname} %{_description}
+%endif
 
 %prep
 %autosetup -n pyjwt-%{version} -p 1
@@ -50,28 +56,39 @@ rm setup.cfg
 
 %build
 %py2_build
+%if 0%{?with_python3}
 %py3_build
+%endif
 
 %install
 %py2_install
+%if 0%{?with_python3}
 %py3_install
+%endif
 
 %check
 py.test-%{python2_version} --verbose
+%if 0%{?with_python3}
 py.test-%{python3_version} --verbose
+%endif
 
 %files -n python2-jwt
 %doc README.rst AUTHORS
 %license LICENSE
 %{python2_sitelib}/%{srcname}/
 %{python2_sitelib}/PyJWT-%{version}-py%{python2_version}.egg-info
+%if 0%{?with_python3} == 0
+%{_bindir}/pyjwt
+%endif
 
+%if 0%{?with_python3}
 %files -n python%{python3_pkgversion}-jwt
 %doc README.rst AUTHORS
 %license LICENSE
 %{python3_sitelib}/%{srcname}/
 %{python3_sitelib}/PyJWT-%{version}-py%{python3_version}.egg-info
 %{_bindir}/pyjwt
+%endif
 
 %changelog
 * Thu Apr 05 2018 Carl George <carl@george.computer> - 1.6.1-1
